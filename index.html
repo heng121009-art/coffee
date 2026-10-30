@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aroma Haven – Premium Coffee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            coffee: {
+              50:  '#faf6f1',
+              100: '#f0e6d8',
+              200: '#e0cbb3',
+              300: '#c9a882',
+              400: '#b0895e',
+              500: '#8b5e3c',
+              600: '#6f4a2f',
+              700: '#5a3b26',
+              800: '#4a3120',
+              900: '#3d291c',
+              950: '#21150e',
+            }
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .slide { display: none; opacity: 0; transition: opacity 0.8s ease; }
+    .slide.active { display: block; opacity: 1; }
+    .modal-backdrop { background: rgba(33, 21, 14, 0.75); backdrop-filter: blur(6px); }
+    .card-hover { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(61, 41, 28, 0.25); }
+    .btn-primary { transition: all 0.25s ease; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(139, 94, 60, 0.4); }
+    .toast { animation: slideIn 0.35s ease forwards; }
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-coffee-50 text-coffee-900 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-coffee-950/95 backdrop-blur-md border-b border-coffee-800/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <a href="#" class="flex items-center gap-2 group">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-coffee-400 to-coffee-600 flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+            <i class="fas fa-mug-hot text-white text-lg"></i>
+          </div>
+          <span class="font-display text-xl md:text-2xl font-semibold text-coffee-100 tracking-wide">Aroma Haven</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#home" class="text-coffee-200 hover:text-white transition font-medium">Home</a>
+          <a href="#products" class="text-coffee-200 hover:text-white transition font-medium">Products</a>
+          <a href="#about" class="text-coffee-200 hover:text-white transition font-medium">About</a>
+          <a href="#contact" class="text-coffee-200 hover:text-white transition font-medium">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button id="cartBtn" class="relative p-2 text-coffee-200 hover:text-white transition">
+            <i class="fas fa-shopping-bag text-xl"></i>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-coffee-400 text-coffee-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 scale-0 transition-all">0</span>
+          </button>
+          <button id="mobileMenuBtn" class="md:hidden p-2 text-coffee-200 hover:text-white">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden md:hidden bg-coffee-900 border-t border-coffee-800">
+      <div class="px-4 py-3 space-y-2">
+        <a href="#home" class="block py-2 text-coffee-200 hover:text-white">Home</a>
+        <a href="#products" class="block py-2 text-coffee-200 hover:text-white">Products</a>
+        <a href="#about" class="block py-2 text-coffee-200 hover:text-white">About</a>
+        <a href="#contact" class="block py-2 text-coffee-200 hover:text-white">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SLIDESHOW ========== -->
+  <section id="home" class="relative h-[85vh] md:h-[90vh] overflow-hidden mt-16 md:mt-20">
+    <div id="slideshow" class="absolute inset-0">
+      <!-- Slide 1 -->
+      <div class="slide active absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80" alt="Coffee beans" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-coffee-950/80 via-coffee-950/50 to-transparent"></div>
+        <div class="absolute inset-0 flex items-center">
+          <div class="max-w-7xl mx-auto px-6 md:px-12 w-full">
+            <div class="max-w-xl">
+              <p class="text-coffee-300 font-medium tracking-widest uppercase text-sm mb-3">Artisan Roasted</p>
+              <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">Wake Up to<br>Perfect Coffee</h1>
+              <p class="text-coffee-100 text-lg md:text-xl mb-8 opacity-90">Hand-selected beans, roasted with passion, delivered to your door.</p>
+              <a href="#products" class="inline-flex items-center gap-2 bg-coffee-500 hover:bg-coffee-400 text-white font-semibold px-8 py-3.5 rounded-full btn-primary">
+                Explore Menu <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1920&q=80" alt="Latte art" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-coffee-950/80 via-coffee-950/50 to-transparent"></div>
+        <div class="absolute inset-0 flex items-center">
+          <div class="max-w-7xl mx-auto px-6 md:px-12 w-full">
+            <div class="max-w-xl">
+              <p class="text-coffee-300 font-medium tracking-widest uppercase text-sm mb-3">Freshly Brewed</p>
+              <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">Every Cup Tells<br>a Story</h1>
+              <p class="text-coffee-100 text-lg md:text-xl mb-8 opacity-90">From farm to cup — experience the true character of single-origin beans.</p>
+              <a href="#products" class="inline-flex items-center gap-2 bg-coffee-500 hover:bg-coffee-400 text-white font-semibold px-8 py-3.5 rounded-full btn-primary">
+                Shop Now <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1920&q=80" alt="Coffee shop" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-coffee-950/80 via-coffee-950/50 to-transparent"></div>
+        <div class="absolute inset-0 flex items-center">
+          <div class="max-w-7xl mx-auto px-6 md:px-12 w-full">
+            <div class="max-w-xl">
+              <p class="text-coffee-300 font-medium tracking-widest uppercase text-sm mb-3">Limited Edition</p>
+              <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">Seasonal Blends<br>& Specials</h1>
+              <p class="text-coffee-100 text-lg md:text-xl mb-8 opacity-90">Discover our rotating seasonal offerings crafted by master roasters.</p>
+              <a href="#products" class="inline-flex items-center gap-2 bg-coffee-500 hover:bg-coffee-400 text-white font-semibold px-8 py-3.5 rounded-full btn-primary">
+                View Collection <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <button class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white transition" data-index="0"></button>
+      <button class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white transition" data-index="1"></button>
+      <button class="slide-dot w-2.5 h-2.5 rounded-full bg-white/40 hover:bg-white transition" data-index="2"></button>
+    </div>
+  </section>
+
+  <!-- ========== PRODUCTS ========== -->
+  <section id="products" class="py-16 md:py-24 bg-coffee-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 md:mb-16">
+        <p class="text-coffee-500 font-medium tracking-widest uppercase text-sm mb-2">Our Menu</p>
+        <h2 class="font-display text-3xl md:text-5xl font-bold text-coffee-900">Signature Coffees</h2>
+        <p class="mt-4 text-coffee-600 max-w-2xl mx-auto">Carefully curated beans and expertly crafted drinks for every moment of your day.</p>
+      </div>
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT ========== -->
+  <section id="about" class="py-16 md:py-24 bg-coffee-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=800&q=80" alt="Roasting" class="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]">
+          <div class="absolute -bottom-6 -right-6 bg-coffee-800 text-white p-6 rounded-xl shadow-xl hidden sm:block">
+            <p class="font-display text-3xl font-bold">12+</p>
+            <p class="text-coffee-200 text-sm">Years of Passion</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-coffee-500 font-medium tracking-widest uppercase text-sm mb-2">Our Story</p>
+          <h2 class="font-display text-3xl md:text-4xl font-bold text-coffee-900 mb-6">From Bean to Cup,<br>Crafted with Love</h2>
+          <p class="text-coffee-700 leading-relaxed mb-4">
+            At Aroma Haven we believe great coffee starts long before the first sip. We partner directly with farmers in Colombia, Ethiopia, and Guatemala to source the finest single-origin beans.
+          </p>
+          <p class="text-coffee-700 leading-relaxed mb-8">
+            Our small-batch roasting process brings out the unique character of each origin — bright citrus notes, deep chocolate, or floral elegance — so every cup is an experience worth savoring.
+          </p>
+          <div class="flex flex-wrap gap-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full bg-coffee-200 flex items-center justify-center text-coffee-700">
+                <i class="fas fa-leaf text-lg"></i>
+              </div>
+              <div>
+                <p class="font-semibold text-coffee-900">Sustainable</p>
+                <p class="text-sm text-coffee-600">Ethically sourced</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full bg-coffee-200 flex items-center justify-center text-coffee-700">
+                <i class="fas fa-fire text-lg"></i>
+              </div>
+              <div>
+                <p class="font-semibold text-coffee-900">Fresh Roast</p>
+                <p class="text-sm text-coffee-600">Weekly batches</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="py-16 md:py-20 bg-coffee-900 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Ready for Your Next Cup?</h2>
+      <p class="text-coffee-200 text-lg mb-8">Order now and enjoy freshly roasted coffee delivered to your door.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#products" class="inline-flex items-center justify-center gap-2 bg-coffee-500 hover:bg-coffee-400 text-white font-semibold px-8 py-3.5 rounded-full btn-primary">
+          <i class="fas fa-shopping-bag"></i> Order Online
+        </a>
+        <a href="https://t.me/KingKong128973bot" target="_blank" class="inline-flex items-center justify-center gap-2 border-2 border-coffee-400 text-coffee-100 hover:bg-coffee-800 font-semibold px-8 py-3.5 rounded-full transition">
+          <i class="fab fa-telegram"></i> Chat on Telegram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-coffee-950 text-coffee-300 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-coffee-400 to-coffee-600 flex items-center justify-center">
+              <i class="fas fa-mug-hot text-white"></i>
+            </div>
+            <span class="font-display text-xl font-semibold text-white">Aroma Haven</span>
+          </div>
+          <p class="text-sm leading-relaxed mb-4">Premium coffee roasted with care. From our roastery to your cup.</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 rounded-full bg-coffee-800 hover:bg-coffee-600 flex items-center justify-center transition"><i class="fab fa-facebook-f text-sm"></i></a>
+            <a href="#" class="w-9 h-9 rounded-full bg-coffee-800 hover:bg-coffee-600 flex items-center justify-center transition"><i class="fab fa-instagram text-sm"></i></a>
+            <a href="https://t.me/KingKong128973bot" target="_blank" class="w-9 h-9 rounded-full bg-coffee-800 hover:bg-coffee-600 flex items-center justify-center transition"><i class="fab fa-telegram-plane text-sm"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Explore</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#home" class="hover:text-white transition">Home</a></li>
+            <li><a href="#products" class="hover:text-white transition">Products</a></li>
+            <li><a href="#about" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#contact" class="hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition">Shipping Info</a></li>
+            <li><a href="#" class="hover:text-white transition">Returns</a></li>
+            <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Get in Touch</h4>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1 text-coffee-400"></i><span>123 Roast Street, Coffee District</span></li>
+            <li class="flex items-center gap-3"><i class="fas fa-phone text-coffee-400"></i><span>+855 12 345 678</span></li>
+            <li class="flex items-center gap-3"><i class="fas fa-envelope text-coffee-400"></i><span>hello@aromahaven.coffee</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-coffee-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+        <p>© 2025 Aroma Haven. All rights reserved.</p>
+        <p class="text-coffee-500">Crafted with <i class="fas fa-heart text-coffee-400"></i> for coffee lovers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== DETAIL MODAL ========== -->
+  <div id="detailModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeDetailModal()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDetailModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-coffee-100 hover:bg-coffee-200 flex items-center justify-center text-coffee-700 transition">
+        <i class="fas fa-times"></i>
+      </button>
+      <div id="detailContent" class="grid md:grid-cols-2"></div>
+    </div>
+  </div>
+
+  <!-- ========== ORDER FORM MODAL ========== -->
+  <div id="orderModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeOrderModal()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white border-b border-coffee-100 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+        <h3 class="font-display text-xl font-semibold text-coffee-900">Complete Your Order</h3>
+        <button onclick="closeOrderModal()" class="w-9 h-9 rounded-full hover:bg-coffee-100 flex items-center justify-center text-coffee-600 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form id="orderForm" class="p-6 space-y-5">
+        <div id="orderProductSummary" class="bg-coffee-50 rounded-xl p-4 flex gap-4 items-center"></div>
+
+        <div>
+          <label class="block text-sm font-medium text-coffee-800 mb-1.5">Full Name *</label>
+          <input type="text" name="fullname" required placeholder="Your full name"
+            class="w-full px-4 py-3 rounded-xl border border-coffee-200 focus:border-coffee-500 focus:ring-2 focus:ring-coffee-200 outline-none transition">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-coffee-800 mb-1.5">Phone Number *</label>
+          <input type="tel" name="phone" required placeholder="e.g. 012 345 678"
+            class="w-full px-4 py-3 rounded-xl border border-coffee-200 focus:border-coffee-500 focus:ring-2 focus:ring-coffee-200 outline-none transition">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-coffee-800 mb-1.5">Delivery Address *</label>
+          <textarea name="address" required rows="3" placeholder="Street, district, city..."
+            class="w-full px-4 py-3 rounded-xl border border-coffee-200 focus:border-coffee-500 focus:ring-2 focus:ring-coffee-200 outline-none transition resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-coffee-800 mb-1.5">Quantity</label>
+          <div class="flex items-center gap-3">
+            <button type="button" id="qtyMinus" class="w-10 h-10 rounded-full border border-coffee-300 hover:bg-coffee-100 flex items-center justify-center text-coffee-700">
+              <i class="fas fa-minus text-sm"></i>
+            </button>
+            <input type="number" name="quantity" id="qtyInput" value="1" min="1" max="20"
+              class="w-16 text-center font-semibold text-lg border-0 focus:ring-0 outline-none">
+            <button type="button" id="qtyPlus" class="w-10 h-10 rounded-full border border-coffee-300 hover:bg-coffee-100 flex items-center justify-center text-coffee-700">
+              <i class="fas fa-plus text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="submitOrderBtn"
+          class="w-full bg-coffee-600 hover:bg-coffee-500 text-white font-semibold py-3.5 rounded-xl btn-primary flex items-center justify-center gap-2">
+          <i class="fas fa-paper-plane"></i>
+          <span>Place Order</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== CART DRAWER ========== -->
+  <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl z-[55] transform translate-x-full transition-transform duration-300">
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-coffee-100">
+        <h3 class="font-display text-lg font-semibold text-coffee-900">Your Cart</h3>
+        <button onclick="closeCart()" class="w-9 h-9 rounded-full hover:bg-coffee-100 flex items-center justify-center">
+          <i class="fas fa-times text-coffee-600"></i>
+        </button>
+      </div>
+      <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4">
+        <p class="text-coffee-500 text-center py-10">Your cart is empty</p>
+      </div>
+      <div class="border-t border-coffee-100 p-5">
+        <div class="flex justify-between mb-4">
+          <span class="font-medium text-coffee-700">Total</span>
+          <span id="cartTotal" class="font-bold text-coffee-900 text-lg">$0.00</span>
+        </div>
+        <button onclick="checkoutFromCart()" class="w-full bg-coffee-600 hover:bg-coffee-500 text-white font-semibold py-3 rounded-xl transition">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="cartOverlay" class="fixed inset-0 bg-black/40 z-[54] hidden" onclick="closeCart()"></div>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden"></div>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "Classic Espresso",
+        price: 2.50,
+        category: "Espresso",
+        short: "Rich, bold shot of pure coffee essence.",
+        description: "Our signature espresso is pulled from freshly roasted Arabica beans. Expect a dense crema, deep chocolate notes, and a lingering sweet finish.",
+        image: "https://images.unsplash.com/photo-1510590337019-5ef8d3d32116?auto=format&fit=crop&w=600&q=80",
+        badge: "Bestseller"
+      },
+      {
+        id: 2,
+        name: "Velvet Latte",
+        price: 4.25,
+        category: "Milk Based",
+        short: "Silky steamed milk over double espresso.",
+        description: "A harmonious balance of bold espresso and velvety microfoam. We use locally sourced whole milk (oat milk available).",
+        image: "https://images.unsplash.com/photo-1561882468-9110e03e0f78?auto=format&fit=crop&w=600&q=80",
+        badge: null
+      },
+      {
+        id: 3,
+        name: "Cloud Cappuccino",
+        price: 4.00,
+        category: "Milk Based",
+        short: "Equal parts espresso, steamed milk & foam.",
+        description: "The perfect three-layer drink. Strong espresso base, silky steamed milk, and a thick cloud of foam on top.",
+        image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80",
+        badge: "Popular"
+      },
+      {
+        id: 4,
+        name: "Americano Bold",
+        price: 3.25,
+        category: "Black",
+        short: "Espresso diluted with hot water – clean & strong.",
+        description: "Two shots topped with hot water, preserving the full body and aromatic complexity of the beans.",
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80",
+        badge: null
+      },
+      {
+        id: 5,
+        name: "Mocha Dream",
+        price: 4.75,
+        category: "Specialty",
+        short: "Espresso, rich chocolate & steamed milk.",
+        description: "A decadent marriage of dark Belgian chocolate, double espresso, and steamed milk. Topped with whipped cream.",
+        image: "https://images.unsplash.com/photo-1578374173705-969cbe6f2d4b?auto=format&fit=crop&w=600&q=80",
+        badge: "Sweet"
+      },
+      {
+        id: 6,
+        name: "Cold Brew Smooth",
+        price: 4.50,
+        category: "Cold",
+        short: "18-hour steeped, naturally sweet & low acid.",
+        description: "Coarse-ground beans steeped for 18 hours in cold water. Incredibly smooth and less acidic than traditional iced coffee.",
+        image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80",
+        badge: "Refreshing"
+      },
+      {
+        id: 7,
+        name: "Ethiopia Yirgacheffe",
+        price: 18.00,
+        category: "Beans 250g",
+        short: "Floral, citrusy single-origin whole beans.",
+        description: "Light-medium roast from the birthplace of coffee. Bright bergamot and jasmine aromatics with a clean citrus finish.",
+        image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80",
+        badge: "Single Origin"
+      },
+      {
+        id: 8,
+        name: "House Blend Roast",
+        price: 14.50,
+        category: "Beans 250g",
+        short: "Balanced chocolate & nut notes for everyday.",
+        description: "A carefully balanced blend of Latin American and African beans. Notes of milk chocolate, toasted almond, and caramel.",
+        image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=600&q=80",
+        badge: null
+      },
+      {
+        id: 9,
+        name: "Caramel Macchiato",
+        price: 4.95,
+        category: "Specialty",
+        short: "Vanilla, espresso & caramel drizzle.",
+        description: "Steamed milk marked with espresso and finished with a generous caramel drizzle. Sweet and aromatic.",
+        image: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80",
+        badge: "New"
+      }
+    ];
+
+    // Your Telegram Bot
+    const TELEGRAM_BOT_TOKEN = "8662648553:AAEMtOFRyzKIM-HTbApUw1VsGYRLSWmNgYo";
+    const TELEGRAM_CHAT_ID = "1661912211";
+
+    let cart = [];
+    let currentProduct = null;
+    let currentSlide = 0;
+    let slideInterval = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts();
+      initSlideshow();
+      initMobileMenu();
+      initQuantityButtons();
+      initOrderForm();
+      document.getElementById("cartBtn").addEventListener("click", openCart);
+    });
+
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = products.map(p => `
+        <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-md border border-coffee-100">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+            ${p.badge ? `<span class="absolute top-3 left-3 bg-coffee-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">${p.badge}</span>` : ""}
+          </div>
+          <div class="p-5">
+            <p class="text-xs font-medium text-coffee-500 uppercase tracking-wider mb-1">${p.category}</p>
+            <h3 class="font-display text-xl font-semibold text-coffee-900 mb-1">${p.name}</h3>
+            <p class="text-coffee-600 text-sm mb-4 line-clamp-2">${p.short}</p>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-coffee-800">$${p.price.toFixed(2)}</span>
+              <div class="flex gap-2">
+                <button onclick="openDetail(${p.id})" class="px-3 py-2 text-sm font-medium text-coffee-700 border border-coffee-300 rounded-lg hover:bg-coffee-50 transition">
+                  View Detail
+                </button>
+                <button onclick="openOrderModal(${p.id})" class="px-3 py-2 text-sm font-medium text-white bg-coffee-600 rounded-lg hover:bg-coffee-500 transition flex items-center gap-1.5">
+                  <i class="fas fa-cart-plus text-xs"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openDetail(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      currentProduct = p;
+
+      document.getElementById("detailContent").innerHTML = `
+        <div class="relative">
+          <img src="${p.image}" alt="${p.name}" class="w-full h-64 md:h-full object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
+          ${p.badge ? `<span class="absolute top-4 left-4 bg-coffee-600 text-white text-xs font-semibold px-3 py-1 rounded-full">${p.badge}</span>` : ""}
+        </div>
+        <div class="p-6 md:p-8 flex flex-col">
+          <p class="text-sm font-medium text-coffee-500 uppercase tracking-wider mb-1">${p.category}</p>
+          <h2 class="font-display text-2xl md:text-3xl font-bold text-coffee-900 mb-2">${p.name}</h2>
+          <p class="text-2xl font-bold text-coffee-700 mb-4">$${p.price.toFixed(2)}</p>
+          <p class="text-coffee-700 leading-relaxed mb-6 flex-1">${p.description}</p>
+          <button onclick="closeDetailModal(); openOrderModal(${p.id})" class="w-full bg-coffee-600 hover:bg-coffee-500 text-white font-semibold py-3 rounded-xl btn-primary flex items-center justify-center gap-2">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      `;
+
+      const modal = document.getElementById("detailModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById("detailModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function openOrderModal(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      currentProduct = p;
+
+      document.getElementById("orderProductSummary").innerHTML = `
+        <img src="${p.image}" alt="${p.name}" class="w-16 h-16 rounded-lg object-cover">
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-coffee-900 truncate">${p.name}</p>
+          <p class="text-sm text-coffee-600">$${p.price.toFixed(2)} each</p>
+        </div>
+      `;
+
+      document.getElementById("qtyInput").value = 1;
+      document.getElementById("orderForm").reset();
+      document.getElementById("orderProductSummary").innerHTML = `
+        <img src="${p.image}" alt="${p.name}" class="w-16 h-16 rounded-lg object-cover">
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-coffee-900 truncate">${p.name}</p>
+          <p class="text-sm text-coffee-600">$${p.price.toFixed(2)} each</p>
+        </div>
+      `;
+
+      const modal = document.getElementById("orderModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeOrderModal() {
+      const modal = document.getElementById("orderModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function initQuantityButtons() {
+      document.getElementById("qtyMinus").addEventListener("click", () => {
+        const input = document.getElementById("qtyInput");
+        let v = parseInt(input.value) || 1;
+        if (v > 1) input.value = v - 1;
+      });
+      document.getElementById("qtyPlus").addEventListener("click", () => {
+        const input = document.getElementById("qtyInput");
+        let v = parseInt(input.value) || 1;
+        if (v < 20) input.value = v + 1;
+      });
+    }
+
+    function initOrderForm() {
+      document.getElementById("orderForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const fullname = form.fullname.value.trim();
+        const phone = form.phone.value.trim();
+        const address = form.address.value.trim();
+        const quantity = parseInt(form.quantity.value) || 1;
+
+        if (!currentProduct) return;
+
+        const total = (currentProduct.price * quantity).toFixed(2);
+        const btn = document.getElementById("submitOrderBtn");
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sending...`;
+
+        const message = `
+☕ *New Order – Aroma Haven*
+
+*Product:* ${currentProduct.name}
+*Quantity:* ${quantity}
+*Unit Price:* $${currentProduct.price.toFixed(2)}
+*Total:* $${total}
+
+👤 *Customer*
+• Name: ${fullname}
+• Phone: ${phone}
+• Address: ${address}
+
+⏰ ${new Date().toLocaleString()}
+        `.trim();
+
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: message,
+              parse_mode: "Markdown"
+            })
+          });
+
+          const data = await res.json();
+          if (data.ok) {
+            addToCart(currentProduct, quantity);
+            closeOrderModal();
+            showToast("✅ Order placed successfully! We will contact you soon.");
+          } else {
+            throw new Error(data.description || "Telegram error");
+          }
+        } catch (err) {
+          console.error(err);
+          addToCart(currentProduct, quantity);
+          closeOrderModal();
+          showToast("✅ Order received! (Please start the bot first)");
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = original;
+      });
+    }
+
+    function addToCart(product, qty = 1) {
+      const existing = cart.find(i => i.id === product.id);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ ...product, qty });
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      const badge = document.getElementById("cartCount");
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove("opacity-0", "scale-0");
+      } else {
+        badge.classList.add("opacity-0", "scale-0");
+      }
+
+      const container = document.getElementById("cartItems");
+      if (cart.length === 0) {
+        container.innerHTML = `<p class="text-coffee-500 text-center py-10">Your cart is empty</p>`;
+      } else {
+        container.innerHTML = cart.map(item => `
+          <div class="flex gap-3 items-center">
+            <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover">
+            <div class="flex-1 min-w-0">
+              <p class="font-medium text-coffee-900 text-sm truncate">${item.name}</p>
+              <p class="text-xs text-coffee-600">$${item.price.toFixed(2)} × ${item.qty}</p>
+            </div>
+            <p class="font-semibold text-coffee-800">$${(item.price * item.qty).toFixed(2)}</p>
+          </div>
+        `).join("");
+      }
+
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      document.getElementById("cartTotal").textContent = `$${total.toFixed(2)}`;
+    }
+
+    function openCart() {
+      document.getElementById("cartDrawer").classList.remove("translate-x-full");
+      document.getElementById("cartOverlay").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCart() {
+      document.getElementById("cartDrawer").classList.add("translate-x-full");
+      document.getElementById("cartOverlay").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function checkoutFromCart() {
+      if (cart.length === 0) {
+        showToast("Your cart is empty");
+        return;
+      }
+      closeCart();
+      openOrderModal(cart[0].id);
+    }
+
+    function initSlideshow() {
+      const slides = document.querySelectorAll(".slide");
+      const dots = document.querySelectorAll(".slide-dot");
+
+      function showSlide(index) {
+        slides.forEach((s, i) => s.classList.toggle("active", i === index));
+        dots.forEach((d, i) => {
+          d.classList.toggle("bg-white", i === index);
+          d.classList.toggle("bg-white/40", i !== index);
+        });
+        currentSlide = index;
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener("click", () => {
+          clearInterval(slideInterval);
+          showSlide(parseInt(dot.dataset.index));
+          startAutoSlide();
+        });
+      });
+
+      function startAutoSlide() {
+        slideInterval = setInterval(() => {
+          showSlide((currentSlide + 1) % slides.length);
+        }, 5500);
+      }
+
+      showSlide(0);
+      startAutoSlide();
+    }
+
+    function initMobileMenu() {
+      const btn = document.getElementById("mobileMenuBtn");
+      const menu = document.getElementById("mobileMenu");
+      btn.addEventListener("click", () => menu.classList.toggle("hidden"));
+      menu.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => menu.classList.add("hidden"));
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.innerHTML = `
+        <div class="toast bg-coffee-800 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm font-medium">
+          ${msg}
+        </div>
+      `;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 3500);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeDetailModal();
+        closeOrderModal();
+        closeCart();
+      }
+    });
+  </script>
+</body>
+</html>
